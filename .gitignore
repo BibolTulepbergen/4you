@@ -1,0 +1,6 @@
+# Firebase конфиг — содержит секретные ключи, НЕ коммитить!
+firebase-config.js
+
+# Системные файлы
+.DS_Store
+Thumbs.db

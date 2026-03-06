@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>С любовью — Конструктор</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1c0f14;--rose:#d4496a;--gold:#c8973a;--blush:#fdf0f3;--petal:#f9dde4;--mist:#8a5d6a;--white:#fff;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Jost',sans-serif;color:var(--ink);min-height:100vh;overflow-x:hidden;background:var(--blush);}
+.build-header{width:100%;background:white;border-bottom:1px solid rgba(138,93,106,.12);padding:16px 22px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:10;box-shadow:0 2px 12px rgba(28,15,20,.06);}
+.back-btn{display:flex;align-items:center;gap:5px;background:none;border:none;font-family:'Jost',sans-serif;font-size:13px;color:var(--mist);cursor:pointer;transition:color .2s;}
+.back-btn:hover{color:var(--rose);}
+.header-title{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--ink);}
+.header-badge{margin-left:auto;background:rgba(212,73,106,.1);border:1px solid rgba(212,73,106,.25);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--rose);}
+.body{width:100%;max-width:500px;margin:0 auto;padding:28px 22px 80px;}
+.sec{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--mist);margin:26px 0 10px;display:flex;align-items:center;gap:8px;}
+.sec::after{content:'';flex:1;height:1px;background:rgba(138,93,106,.15);}
+.sec:first-child{margin-top:0;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+.field label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--mist);}
+.fi{padding:13px 15px;border:1.5px solid rgba(138,93,106,.15);border-radius:13px;font-family:'Jost',sans-serif;font-size:14px;background:white;color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;width:100%;}
+.fi:focus{border-color:var(--rose);box-shadow:0 0 0 3px rgba(212,73,106,.1);}
+textarea.fi{resize:vertical;min-height:88px;line-height:1.65;}
+.themes{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:4px;}
+.theme{border:1.5px solid rgba(138,93,106,.15);border-radius:12px;padding:11px 6px;background:white;cursor:pointer;text-align:center;font-family:'Jost',sans-serif;font-size:11px;color:var(--mist);transition:all .22s;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.theme span{font-size:22px;}
+.theme:hover,.theme.on{border-color:var(--rose);background:#fff0f3;color:var(--rose);}
+.theme.on{box-shadow:0 2px 10px rgba(212,73,106,.18);}
+.cover-zone{width:100%;height:155px;border-radius:14px;border:2px dashed rgba(138,93,106,.25);background:white;cursor:pointer;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;transition:all .25s;margin-bottom:12px;}
+.cover-zone:hover{border-color:var(--rose);background:#fff5f8;}
+.cover-zone img{width:100%;height:100%;object-fit:cover;display:none;position:absolute;inset:0;}
+.cover-ph{display:flex;flex-direction:column;align-items:center;gap:5px;pointer-events:none;}
+.cover-ph .ic{font-size:26px;}
+.cover-ph p{font-size:13px;color:var(--mist);}
+.cover-ph small{font-size:11px;color:rgba(138,93,106,.45);}
+.cover-change{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.5);color:white;border:none;border-radius:8px;padding:5px 10px;font-size:11px;font-family:'Jost',sans-serif;cursor:pointer;display:none;backdrop-filter:blur(4px);}
+.cover-zone.has .cover-change{display:block;}
+.cover-zone.has .cover-ph{display:none;}
+.cover-zone.has img{display:block;}
+.upload-zone{width:100%;border:2px dashed rgba(138,93,106,.2);border-radius:14px;padding:18px;text-align:center;cursor:pointer;background:white;transition:all .25s;margin-bottom:10px;}
+.upload-zone:hover{border-color:var(--rose);background:#fff5f8;}
+.upload-zone p{font-size:13px;color:var(--mist);margin-top:5px;}
+.upload-zone small{font-size:11px;color:rgba(138,93,106,.4);}
+.thumb-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
+.thumb{position:relative;width:64px;height:64px;}
+.thumb img{width:100%;height:100%;border-radius:10px;object-fit:cover;border:2px solid rgba(212,73,106,.2);}
+.thumb-del{position:absolute;top:-5px;right:-5px;width:18px;height:18px;background:var(--rose);color:white;border:none;border-radius:50%;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.wish-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.wish-item{display:flex;align-items:center;gap:10px;background:white;border:1.5px solid rgba(138,93,106,.1);border-radius:12px;padding:8px 12px;}
+.wish-item img{width:38px;height:38px;border-radius:8px;object-fit:cover;flex-shrink:0;}
+.wish-item input{flex:1;border:none;outline:none;font-family:'Jost',sans-serif;font-size:13px;color:var(--ink);background:transparent;}
+.wish-item input::placeholder{color:rgba(138,93,106,.35);}
+.cta{display:flex;flex-direction:column;gap:10px;margin-top:8px;}
+.btn-main{width:100%;padding:16px;background:var(--rose);color:white;border:none;border-radius:50px;font-family:'Jost',sans-serif;font-size:14px;font-weight:600;letter-spacing:.7px;cursor:pointer;box-shadow:0 8px 26px rgba(212,73,106,.4);transition:all .28s;}
+.btn-main:hover:not(:disabled){background:#bf3459;transform:translateY(-2px);box-shadow:0 14px 36px rgba(212,73,106,.5);}
+.btn-main:disabled{background:#c0848f;cursor:not-allowed;}
+.btn-ghost{background:transparent;color:var(--mist);border:none;font-family:'Jost',sans-serif;font-size:13px;cursor:pointer;padding:8px;text-decoration:underline;text-underline-offset:3px;transition:color .2s;}
+.btn-ghost:hover{color:var(--rose);}
+#overlay{position:fixed;inset:0;background:rgba(28,15,20,.92);z-index:100;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
+#overlay.on{display:flex;}
+.spinner{width:40px;height:40px;border:3px solid rgba(212,73,106,.3);border-top-color:var(--rose);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.overlay-text{font-size:14px;color:rgba(255,255,255,.8);font-family:'Jost',sans-serif;}
+.overlay-step{font-size:12px;color:rgba(255,255,255,.4);font-family:'Jost',sans-serif;}
+.overlay-progress{width:220px;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden;}
+.overlay-bar{height:100%;background:var(--rose);border-radius:2px;transition:width .3s;width:0%;}
+#share-modal{position:fixed;inset:0;background:rgba(10,4,8,.88);backdrop-filter:blur(14px);z-index:90;display:none;align-items:center;justify-content:center;padding:24px;}
+#share-modal.on{display:flex;animation:popIn .4s cubic-bezier(.22,1,.36,1) both;}
+@keyframes popIn{from{opacity:0;transform:scale(.9);}to{opacity:1;transform:scale(1);}}
+.share-card{background:white;border-radius:24px;max-width:420px;width:100%;padding:32px 28px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.5);}
+.share-card h2{font-family:'Playfair Display',serif;font-size:26px;font-style:italic;color:var(--ink);margin-bottom:8px;}
+.share-card p{font-size:13px;color:var(--mist);margin-bottom:22px;line-height:1.6;}
+.link-box{display:flex;align-items:center;gap:8px;background:#fdf0f3;border:1.5px solid rgba(138,93,106,.18);border-radius:12px;padding:12px 14px;margin-bottom:14px;text-align:left;}
+.link-text{flex:1;font-family:monospace;font-size:11px;color:var(--mist);word-break:break-all;line-height:1.5;}
+.copy-btn{background:var(--rose);color:white;border:none;border-radius:8px;padding:8px 14px;font-size:12px;font-family:'Jost',sans-serif;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .2s;}
+.copy-btn:hover{background:#bf3459;}
+.share-btns{display:flex;flex-direction:column;gap:10px;}
+.btn-preview{width:100%;padding:14px;background:var(--ink);color:white;border:none;border-radius:50px;font-family:'Jost',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .25s;}
+.btn-preview:hover{background:#3a1020;}
+.btn-close-modal{background:transparent;color:var(--mist);border:none;font-family:'Jost',sans-serif;font-size:13px;cursor:pointer;padding:8px;text-decoration:underline;text-underline-offset:3px;}
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#c0392b;color:white;padding:12px 22px;border-radius:12px;font-size:13px;font-family:'Jost',sans-serif;opacity:0;transition:opacity .3s;pointer-events:none;z-index:200;max-width:340px;text-align:center;line-height:1.5;}
+#toast.on{opacity:1;}
+.cfg-warn{background:rgba(255,160,0,.12);border:1px solid rgba(255,160,0,.4);border-radius:12px;padding:12px 16px;font-size:12px;color:#7a5500;line-height:1.6;margin-bottom:20px;display:none;}
+.cfg-warn.on{display:block;}
+</style>
+<script>window.FIREBASE_CONFIG={apiKey:"AIzaSyBLLQjStD1r5fT3AYe6jS5C9B5g9rWxs54",authDomain:"for-you-6d3a4.firebaseapp.com",projectId:"for-you-6d3a4",storageBucket:"for-you-6d3a4.firebasestorage.app",messagingSenderId:"648486819711",appId:"1:648486819711:web:09393a16e1ff1227ec2c4a"};window.CLOUDINARY_CONFIG={cloud_name:"dydgkgvmm",upload_preset:"pozdravlenie"};</script></head>
+<body>
+
+<div id="overlay">
+  <div class="spinner"></div>
+  <div class="overlay-text">Сохраняем открытку…</div>
+  <div class="overlay-step" id="overlay-step">Подготовка…</div>
+  <div class="overlay-progress"><div class="overlay-bar" id="overlay-bar"></div></div>
+</div>
+
+<div id="share-modal">
+  <div class="share-card">
+    <div style="font-size:40px;margin-bottom:12px">🌷</div>
+    <h2>Открытка готова!</h2>
+    <p>Скопируй ссылку и отправь ей — она откроется в браузере с анимацией и лепестками</p>
+    <div class="link-box">
+      <span class="link-text" id="modal-link">—</span>
+      <button class="copy-btn" id="copy-btn" onclick="copyLink()">Копировать</button>
+    </div>
+    <div class="share-btns">
+      <button class="btn-preview" onclick="openPreview()">👁 Посмотреть как она увидит</button>
+      <button class="btn-close-modal" onclick="document.getElementById('share-modal').classList.remove('on')">← Изменить открытку</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<div class="build-header">
+  <button class="back-btn" onclick="window.location.href='index.html'">← Назад</button>
+  <span class="header-title">Конструктор</span>
+  <span class="header-badge" id="occ-badge">🌷 8 марта</span>
+</div>
+
+<div class="body">
+  <div class="cfg-warn" id="cfg-warn">
+    ⚠️ <strong>Конфиг не заполнен — проверь GitHub Secrets.</strong><br>
+    Заполни его своими ключами и обнови страницу.
+  </div>
+
+  <div class="sec">Получатель</div>
+  <div class="row2">
+    <div class="field"><label>Кому</label><input class="fi" id="f-name" type="text" placeholder="Алина…"></div>
+    <div class="field"><label>От кого</label><input class="fi" id="f-from" type="text" placeholder="Твоё имя"></div>
+  </div>
+
+  <div class="sec">Пожелание</div>
+  <div class="field"><textarea class="fi" id="f-msg" placeholder="Напиши что-то тёплое от сердца…"></textarea></div>
+
+  <div class="sec">Оформление</div>
+  <div class="themes">
+    <div class="theme on" data-t="roses" onclick="pickTheme(this)"><span>🌹</span>Розы</div>
+    <div class="theme" data-t="spring" onclick="pickTheme(this)"><span>🌿</span>Весна</div>
+    <div class="theme" data-t="night" onclick="pickTheme(this)"><span>🌙</span>Ночь</div>
+    <div class="theme" data-t="golden" onclick="pickTheme(this)"><span>✨</span>Золото</div>
+  </div>
+
+  <div class="sec">Фото обложки</div>
+  <div class="cover-zone" id="cover-zone" onclick="document.getElementById('ci').click()">
+    <img id="cover-img" src="" alt="">
+    <div class="cover-ph"><div class="ic">🖼</div><p>Загрузи фото обложки</p><small>Необязательно</small></div>
+    <button class="cover-change" onclick="event.stopPropagation();document.getElementById('ci').click()">Сменить</button>
+  </div>
+  <input type="file" id="ci" accept="image/*" style="display:none" onchange="setCover(event)">
+
+  <div class="sec">Совместные фото <span style="text-transform:none;letter-spacing:0;font-size:10px;opacity:.6;font-weight:400;">(падают дождём)</span></div>
+  <div class="upload-zone" onclick="document.getElementById('mi').click()">
+    <div style="font-size:24px">📷</div>
+    <p>Добавить фото воспоминаний</p>
+    <small>До 8 фото</small>
+  </div>
+  <input type="file" id="mi" accept="image/*" multiple style="display:none" onchange="addMem(event)">
+  <div class="thumb-row" id="thumb-row"></div>
+  <div class="wish-list" id="wish-list"></div>
+
+  <div class="cta">
+    <button class="btn-main" id="submit-btn" onclick="submitCard()">✨ Создать и получить ссылку</button>
+    <button class="btn-ghost" onclick="window.location.href='index.html'">← Сменить повод</button>
+  </div>
+</div>
+
+<!-- ══ ALL JS — regular script, no module, so onclick works ══ -->
+<script>
+// ── State ─────────────────────────────────────────────
+const DEFAULTS = {
+  '8march':  'Ты — весна, которая приходит в мою жизнь каждый день. С 8 марта, моя дорогая.',
+  'birthday':'В этот особенный день хочу пожелать тебе всего, о чём ты мечтаешь. Ты заслуживаешь лучшего.',
+  'love':    'Просто хочу, чтобы ты знала: ты делаешь мой мир ярче каждый день.',
+  'newyear': 'Пусть новый год принесёт только радость, тепло и исполнение желаний!',
+};
+const BADGES = {'8march':'🌷 8 марта','birthday':'🎂 День рождения','love':'💌 Признание','newyear':'🥂 Новый год'};
+
+let occasion  = sessionStorage.getItem('occasion') || '8march';
+let theme     = 'roses';
+let coverFile = null;
+let memPhotos = [];
+let generatedUrl = '';
+let db = null;
+
+document.getElementById('occ-badge').textContent = BADGES[occasion];
+document.getElementById('f-msg').value = DEFAULTS[occasion];
+
+// ── Init Firebase (after config loaded) ───────────────
+function initFirebase() {
+  const fbCfg = window.FIREBASE_CONFIG;
+  const clCfg = window.CLOUDINARY_CONFIG;
+
+  const fbOk = fbCfg && fbCfg.apiKey && fbCfg.apiKey !== 'ВСТАВЬ_СЮДА';
+  const clOk = clCfg && clCfg.cloud_name && clCfg.cloud_name !== 'ВСТАВЬ_СЮДА';
+
+  if (!fbOk || !clOk) {
+    document.getElementById('cfg-warn').classList.add('on');
+    document.getElementById('submit-btn').disabled = true;
+    document.getElementById('submit-btn').textContent = '⚠️ Конфиг не заполнен';
+    return;
+  }
+
+  // Dynamically import Firebase (CDN ESM → wrap in module script)
+  const s = document.createElement('script');
+  s.type = 'module';
+  s.textContent = `
+    import { initializeApp }            from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+    const app = initializeApp(window.FIREBASE_CONFIG);
+    window._db = getFirestore(app);
+    window._fbReady = true;
+  `;
+  document.head.appendChild(s);
+}
+
+// ── Theme ─────────────────────────────────────────────
+function pickTheme(el) {
+  document.querySelectorAll('.theme').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  theme = el.dataset.t;
+}
+
+// ── Cover photo ───────────────────────────────────────
+function setCover(e) {
+  const f = e.target.files[0]; if (!f) return;
+  coverFile = f;
+  document.getElementById('cover-img').src = URL.createObjectURL(f);
+  document.getElementById('cover-zone').classList.add('has');
+  e.target.value = '';
+}
+
+// ── Memory photos ──────────────────────────────────────
+function addMem(e) {
+  const files = Array.from(e.target.files).slice(0, 8 - memPhotos.length);
+  files.forEach(f => memPhotos.push({ file: f, preview: URL.createObjectURL(f), wish: '' }));
+  renderMem();
+  e.target.value = '';
+}
+function removeMem(i) { memPhotos.splice(i, 1); renderMem(); }
+function renderMem() {
+  const tr = document.getElementById('thumb-row');
+  const wl = document.getElementById('wish-list');
+  tr.innerHTML = wl.innerHTML = '';
+  memPhotos.forEach((p, i) => {
+    const d = document.createElement('div'); d.className = 'thumb';
+    d.innerHTML = `<img src="${p.preview}"><button class="thumb-del" onclick="removeMem(${i})">✕</button>`;
+    tr.appendChild(d);
+    const w = document.createElement('div'); w.className = 'wish-item';
+    w.innerHTML = `<img src="${p.preview}"><input type="text" placeholder="Пожелание к этому фото…" value="${p.wish}" oninput="memPhotos[${i}].wish=this.value">`;
+    wl.appendChild(w);
+  });
+}
+
+// ── Cloudinary upload ─────────────────────────────────
+async function uploadToCloudinary(file, folder) {
+  const cfg = window.CLOUDINARY_CONFIG;
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', cfg.upload_preset);
+  fd.append('folder', folder);
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${cfg.cloud_name}/image/upload`, {
+    method: 'POST', body: fd
+  });
+  if (!res.ok) throw new Error('Cloudinary: ' + res.statusText);
+  return (await res.json()).secure_url;
+}
+
+// ── Helpers ───────────────────────────────────────────
+function setProgress(pct, step) {
+  document.getElementById('overlay-bar').style.width = pct + '%';
+  document.getElementById('overlay-step').textContent = step;
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('on');
+  setTimeout(() => t.classList.remove('on'), 5000);
+}
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+
+// ── Submit ────────────────────────────────────────────
+async function submitCard() {
+  if (!window._fbReady) { showToast('Firebase ещё загружается, подожди секунду и попробуй снова'); return; }
+
+  const name = document.getElementById('f-name').value.trim() || 'Моя любимая';
+  const from = document.getElementById('f-from').value.trim() || 'Твой';
+  const msg  = document.getElementById('f-msg').value.trim()  || DEFAULTS[occasion];
+
+  document.getElementById('overlay').classList.add('on');
+  setProgress(5, 'Подготовка…');
+
+  try {
+    const cardId = uid();
+    const folder = 'cards/' + cardId;
+    const total  = (coverFile ? 1 : 0) + memPhotos.length;
+    let done = 0;
+
+    const data = { occasion, theme, name, from, msg, createdAt: Date.now(), coverUrl: null, photos: [] };
+
+    if (coverFile) {
+      setProgress(10, 'Загружаем фото обложки…');
+      data.coverUrl = await uploadToCloudinary(coverFile, folder);
+      done++;
+      setProgress(10 + (done / Math.max(total, 1)) * 75, `Загружено ${done}/${total}`);
+    }
+
+    for (let i = 0; i < memPhotos.length; i++) {
+      setProgress(10 + (done / Math.max(total, 1)) * 75, `Фото ${i + 1}/${memPhotos.length}…`);
+      const url = await uploadToCloudinary(memPhotos[i].file, folder);
+      data.photos.push({ url, wish: memPhotos[i].wish });
+      done++;
+      setProgress(10 + (done / Math.max(total, 1)) * 75, `Загружено ${done}/${total}`);
+    }
+
+    setProgress(90, 'Сохраняем в базу…');
+
+    // Use Firestore via dynamically imported module stored on window
+    const { doc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    await setDoc(doc(window._db, 'cards', cardId), data);
+
+    setProgress(100, 'Готово! 🌷');
+    await new Promise(r => setTimeout(r, 400));
+
+    const base = window.location.href.replace('constructor.html', '');
+    generatedUrl = base + 'card.html?id=' + cardId;
+
+    document.getElementById('overlay').classList.remove('on');
+    document.getElementById('modal-link').textContent = generatedUrl;
+    document.getElementById('share-modal').classList.add('on');
+
+  } catch (err) {
+    document.getElementById('overlay').classList.remove('on');
+    console.error(err);
+    showToast('Ошибка: ' + (err.message || 'попробуй ещё раз'));
+  }
+}
+
+function copyLink() {
+  navigator.clipboard.writeText(generatedUrl).catch(() => {
+    const t = document.createElement('textarea');
+    t.value = generatedUrl; document.body.appendChild(t); t.select();
+    document.execCommand('copy'); t.remove();
+  });
+  const b = document.getElementById('copy-btn');
+  b.textContent = '✓ Скопировано!';
+  setTimeout(() => b.textContent = 'Копировать', 2500);
+}
+function openPreview() { window.open(generatedUrl, '_blank'); }
+</script>
+
+<!-- Config loaded AFTER the main script so FIREBASE_CONFIG is available -->
+
+</body>
+</html>
