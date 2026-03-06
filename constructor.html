@@ -55,8 +55,8 @@ textarea.fi{resize:vertical;min-height:88px;line-height:1.65;}
 .wish-item input::placeholder{color:rgba(138,93,106,.35);}
 .cta{display:flex;flex-direction:column;gap:10px;margin-top:8px;}
 .btn-main{width:100%;padding:16px;background:var(--rose);color:white;border:none;border-radius:50px;font-family:'Jost',sans-serif;font-size:14px;font-weight:600;letter-spacing:.7px;cursor:pointer;box-shadow:0 8px 26px rgba(212,73,106,.4);transition:all .28s;}
-.btn-main:hover{background:#bf3459;transform:translateY(-2px);box-shadow:0 14px 36px rgba(212,73,106,.5);}
-.btn-main:disabled{background:#c0848f;cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-main:hover:not(:disabled){background:#bf3459;transform:translateY(-2px);box-shadow:0 14px 36px rgba(212,73,106,.5);}
+.btn-main:disabled{background:#c0848f;cursor:not-allowed;}
 .btn-ghost{background:transparent;color:var(--mist);border:none;font-family:'Jost',sans-serif;font-size:13px;cursor:pointer;padding:8px;text-decoration:underline;text-underline-offset:3px;transition:color .2s;}
 .btn-ghost:hover{color:var(--rose);}
 #overlay{position:fixed;inset:0;background:rgba(28,15,20,.92);z-index:100;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;}
@@ -65,7 +65,7 @@ textarea.fi{resize:vertical;min-height:88px;line-height:1.65;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .overlay-text{font-size:14px;color:rgba(255,255,255,.8);font-family:'Jost',sans-serif;}
 .overlay-step{font-size:12px;color:rgba(255,255,255,.4);font-family:'Jost',sans-serif;}
-.overlay-progress{width:200px;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden;}
+.overlay-progress{width:220px;height:3px;background:rgba(255,255,255,.15);border-radius:2px;overflow:hidden;}
 .overlay-bar{height:100%;background:var(--rose);border-radius:2px;transition:width .3s;width:0%;}
 #share-modal{position:fixed;inset:0;background:rgba(10,4,8,.88);backdrop-filter:blur(14px);z-index:90;display:none;align-items:center;justify-content:center;padding:24px;}
 #share-modal.on{display:flex;animation:popIn .4s cubic-bezier(.22,1,.36,1) both;}
@@ -78,12 +78,13 @@ textarea.fi{resize:vertical;min-height:88px;line-height:1.65;}
 .copy-btn{background:var(--rose);color:white;border:none;border-radius:8px;padding:8px 14px;font-size:12px;font-family:'Jost',sans-serif;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .2s;}
 .copy-btn:hover{background:#bf3459;}
 .share-btns{display:flex;flex-direction:column;gap:10px;}
-.btn-preview{width:100%;padding:14px;background:var(--ink);color:white;border:none;border-radius:50px;font-family:'Jost',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .25s;}
+.btn-preview{width:100%;padding:14px;background:var(--ink);color:white;border:none;border-radius:50px;font-family:'Jost',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:background .25s;}
 .btn-preview:hover{background:#3a1020;}
-.btn-close{background:transparent;color:var(--mist);border:none;font-family:'Jost',sans-serif;font-size:13px;cursor:pointer;padding:8px;text-decoration:underline;text-underline-offset:3px;}
-.btn-close:hover{color:var(--rose);}
-#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#c0392b;color:white;padding:12px 20px;border-radius:12px;font-size:13px;font-family:'Jost',sans-serif;opacity:0;transition:opacity .3s;pointer-events:none;z-index:200;max-width:340px;text-align:center;line-height:1.5;}
+.btn-close-modal{background:transparent;color:var(--mist);border:none;font-family:'Jost',sans-serif;font-size:13px;cursor:pointer;padding:8px;text-decoration:underline;text-underline-offset:3px;}
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:#c0392b;color:white;padding:12px 22px;border-radius:12px;font-size:13px;font-family:'Jost',sans-serif;opacity:0;transition:opacity .3s;pointer-events:none;z-index:200;max-width:340px;text-align:center;line-height:1.5;}
 #toast.on{opacity:1;}
+.cfg-warn{background:rgba(255,160,0,.12);border:1px solid rgba(255,160,0,.4);border-radius:12px;padding:12px 16px;font-size:12px;color:#7a5500;line-height:1.6;margin-bottom:20px;display:none;}
+.cfg-warn.on{display:block;}
 </style>
 </head>
 <body>
@@ -99,14 +100,14 @@ textarea.fi{resize:vertical;min-height:88px;line-height:1.65;}
   <div class="share-card">
     <div style="font-size:40px;margin-bottom:12px">🌷</div>
     <h2>Открытка готова!</h2>
-    <p>Скопируй ссылку и отправь ей — она откроется прямо в браузере с анимацией и лепестками</p>
+    <p>Скопируй ссылку и отправь ей — она откроется в браузере с анимацией и лепестками</p>
     <div class="link-box">
       <span class="link-text" id="modal-link">—</span>
       <button class="copy-btn" id="copy-btn" onclick="copyLink()">Копировать</button>
     </div>
     <div class="share-btns">
       <button class="btn-preview" onclick="openPreview()">👁 Посмотреть как она увидит</button>
-      <button class="btn-close" onclick="closeModal()">← Изменить открытку</button>
+      <button class="btn-close-modal" onclick="document.getElementById('share-modal').classList.remove('on')">← Изменить открытку</button>
     </div>
   </div>
 </div>
@@ -120,6 +121,11 @@ textarea.fi{resize:vertical;min-height:88px;line-height:1.65;}
 </div>
 
 <div class="body">
+  <div class="cfg-warn" id="cfg-warn">
+    ⚠️ <strong>Конфиг не заполнен — проверь GitHub Secrets.</strong><br>
+    Заполни его своими ключами и обнови страницу.
+  </div>
+
   <div class="sec">Получатель</div>
   <div class="row2">
     <div class="field"><label>Кому</label><input class="fi" id="f-name" type="text" placeholder="Алина…"></div>
@@ -156,16 +162,14 @@ textarea.fi{resize:vertical;min-height:88px;line-height:1.65;}
   <div class="wish-list" id="wish-list"></div>
 
   <div class="cta">
-    <button class="btn-main" id="submit-btn" onclick="submit()">✨ Создать и получить ссылку</button>
+    <button class="btn-main" id="submit-btn" onclick="submitCard()">✨ Создать и получить ссылку</button>
     <button class="btn-ghost" onclick="window.location.href='index.html'">← Сменить повод</button>
   </div>
 </div>
 
-<script src="firebase-config.js"></script>
-<script type="module">
-import { initializeApp }         from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-
+<!-- ══ ALL JS — regular script, no module, so onclick works ══ -->
+<script>
+// ── State ─────────────────────────────────────────────
 const DEFAULTS = {
   '8march':  'Ты — весна, которая приходит в мою жизнь каждый день. С 8 марта, моя дорогая.',
   'birthday':'В этот особенный день хочу пожелать тебе всего, о чём ты мечтаешь. Ты заслуживаешь лучшего.',
@@ -174,60 +178,73 @@ const DEFAULTS = {
 };
 const BADGES = {'8march':'🌷 8 марта','birthday':'🎂 День рождения','love':'💌 Признание','newyear':'🥂 Новый год'};
 
-// Check config
-const fbCfg  = window.FIREBASE_CONFIG;
-const clCfg  = window.CLOUDINARY_CONFIG;
-const cfgOk  = fbCfg?.apiKey !== 'ВСТАВЬ_СЮДА' && clCfg?.cloud_name !== 'ВСТАВЬ_СЮДА';
-
-if(!cfgOk){
-  document.getElementById('submit-btn').disabled = true;
-  document.getElementById('submit-btn').textContent = '⚠️ Заполни firebase-config.js';
-}
-
-const app = cfgOk ? initializeApp(fbCfg) : null;
-const db  = app ? getFirestore(app) : null;
-
 let occasion  = sessionStorage.getItem('occasion') || '8march';
 let theme     = 'roses';
-let coverBlob = null;  // File object
-let memPhotos = [];    // [{file: File, preview: string, wish: string}]
+let coverFile = null;
+let memPhotos = [];
 let generatedUrl = '';
+let db = null;
 
 document.getElementById('occ-badge').textContent = BADGES[occasion];
 document.getElementById('f-msg').value = DEFAULTS[occasion];
 
-window.pickTheme = el => {
-  document.querySelectorAll('.theme').forEach(t=>t.classList.remove('on'));
+// ── Init Firebase (after config loaded) ───────────────
+function initFirebase() {
+  const fbCfg = window.FIREBASE_CONFIG;
+  const clCfg = window.CLOUDINARY_CONFIG;
+
+  const fbOk = fbCfg && fbCfg.apiKey && fbCfg.apiKey !== 'ВСТАВЬ_СЮДА';
+  const clOk = clCfg && clCfg.cloud_name && clCfg.cloud_name !== 'ВСТАВЬ_СЮДА';
+
+  if (!fbOk || !clOk) {
+    document.getElementById('cfg-warn').classList.add('on');
+    document.getElementById('submit-btn').disabled = true;
+    document.getElementById('submit-btn').textContent = '⚠️ Конфиг не заполнен';
+    return;
+  }
+
+  // Dynamically import Firebase (CDN ESM → wrap in module script)
+  const s = document.createElement('script');
+  s.type = 'module';
+  s.textContent = `
+    import { initializeApp }            from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import { getFirestore, doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+    const app = initializeApp(window.FIREBASE_CONFIG);
+    window._db = getFirestore(app);
+    window._fbReady = true;
+  `;
+  document.head.appendChild(s);
+}
+
+// ── Theme ─────────────────────────────────────────────
+function pickTheme(el) {
+  document.querySelectorAll('.theme').forEach(t => t.classList.remove('on'));
   el.classList.add('on');
   theme = el.dataset.t;
-};
+}
 
-window.setCover = e => {
-  const f = e.target.files[0]; if(!f) return;
-  coverBlob = f;
-  const url = URL.createObjectURL(f);
-  document.getElementById('cover-img').src = url;
+// ── Cover photo ───────────────────────────────────────
+function setCover(e) {
+  const f = e.target.files[0]; if (!f) return;
+  coverFile = f;
+  document.getElementById('cover-img').src = URL.createObjectURL(f);
   document.getElementById('cover-zone').classList.add('has');
   e.target.value = '';
-};
+}
 
-window.addMem = e => {
+// ── Memory photos ──────────────────────────────────────
+function addMem(e) {
   const files = Array.from(e.target.files).slice(0, 8 - memPhotos.length);
-  files.forEach(f => {
-    const preview = URL.createObjectURL(f);
-    memPhotos.push({ file: f, preview, wish: '' });
-  });
+  files.forEach(f => memPhotos.push({ file: f, preview: URL.createObjectURL(f), wish: '' }));
   renderMem();
   e.target.value = '';
-};
-
-window.removeMem = i => { memPhotos.splice(i,1); renderMem(); };
-
-function renderMem(){
+}
+function removeMem(i) { memPhotos.splice(i, 1); renderMem(); }
+function renderMem() {
   const tr = document.getElementById('thumb-row');
   const wl = document.getElementById('wish-list');
   tr.innerHTML = wl.innerHTML = '';
-  memPhotos.forEach((p,i) => {
+  memPhotos.forEach((p, i) => {
     const d = document.createElement('div'); d.className = 'thumb';
     d.innerHTML = `<img src="${p.preview}"><button class="thumb-del" onclick="removeMem(${i})">✕</button>`;
     tr.appendChild(d);
@@ -237,38 +254,35 @@ function renderMem(){
   });
 }
 
-// Upload a File to Cloudinary, return secure URL
+// ── Cloudinary upload ─────────────────────────────────
 async function uploadToCloudinary(file, folder) {
+  const cfg = window.CLOUDINARY_CONFIG;
   const fd = new FormData();
   fd.append('file', file);
-  fd.append('upload_preset', clCfg.upload_preset);
+  fd.append('upload_preset', cfg.upload_preset);
   fd.append('folder', folder);
-  const res = await fetch(
-    `https://api.cloudinary.com/v1_1/${clCfg.cloud_name}/image/upload`,
-    { method: 'POST', body: fd }
-  );
-  if(!res.ok) throw new Error('Cloudinary upload failed: ' + res.statusText);
-  const json = await res.json();
-  return json.secure_url;
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${cfg.cloud_name}/image/upload`, {
+    method: 'POST', body: fd
+  });
+  if (!res.ok) throw new Error('Cloudinary: ' + res.statusText);
+  return (await res.json()).secure_url;
 }
 
+// ── Helpers ───────────────────────────────────────────
 function setProgress(pct, step) {
   document.getElementById('overlay-bar').style.width = pct + '%';
   document.getElementById('overlay-step').textContent = step;
 }
-
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('on');
   setTimeout(() => t.classList.remove('on'), 5000);
 }
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
 
-function uid() {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2,7);
-}
-
-window.submit = async () => {
-  if(!cfgOk){ showToast('Заполни firebase-config.js перед использованием'); return; }
+// ── Submit ────────────────────────────────────────────
+async function submitCard() {
+  if (!window._fbReady) { showToast('Firebase ещё загружается, подожди секунду и попробуй снова'); return; }
 
   const name = document.getElementById('f-name').value.trim() || 'Моя любимая';
   const from = document.getElementById('f-from').value.trim() || 'Твой';
@@ -279,51 +293,51 @@ window.submit = async () => {
 
   try {
     const cardId = uid();
-    const folder = `cards/${cardId}`;
-    const totalUploads = (coverBlob ? 1 : 0) + memPhotos.length;
-    let uploaded = 0;
+    const folder = 'cards/' + cardId;
+    const total  = (coverFile ? 1 : 0) + memPhotos.length;
+    let done = 0;
 
     const data = { occasion, theme, name, from, msg, createdAt: Date.now(), coverUrl: null, photos: [] };
 
-    // Upload cover
-    if(coverBlob) {
+    if (coverFile) {
       setProgress(10, 'Загружаем фото обложки…');
-      data.coverUrl = await uploadToCloudinary(coverBlob, folder);
-      uploaded++;
-      setProgress(10 + (uploaded/Math.max(totalUploads,1))*70, `Загружено ${uploaded}/${totalUploads}…`);
+      data.coverUrl = await uploadToCloudinary(coverFile, folder);
+      done++;
+      setProgress(10 + (done / Math.max(total, 1)) * 75, `Загружено ${done}/${total}`);
     }
 
-    // Upload memory photos
-    for(let i = 0; i < memPhotos.length; i++) {
-      setProgress(10 + (uploaded/Math.max(totalUploads,1))*70, `Фото ${i+1}/${memPhotos.length}…`);
+    for (let i = 0; i < memPhotos.length; i++) {
+      setProgress(10 + (done / Math.max(total, 1)) * 75, `Фото ${i + 1}/${memPhotos.length}…`);
       const url = await uploadToCloudinary(memPhotos[i].file, folder);
       data.photos.push({ url, wish: memPhotos[i].wish });
-      uploaded++;
-      setProgress(10 + (uploaded/Math.max(totalUploads,1))*70, `Загружено ${uploaded}/${totalUploads}…`);
+      done++;
+      setProgress(10 + (done / Math.max(total, 1)) * 75, `Загружено ${done}/${total}`);
     }
 
-    // Save to Firestore
-    setProgress(85, 'Сохраняем открытку…');
-    await setDoc(doc(db, 'cards', cardId), data);
-    setProgress(100, 'Готово!');
+    setProgress(90, 'Сохраняем в базу…');
 
-    // Build URL
-    const base = window.location.href.replace('constructor.html','');
-    generatedUrl = `${base}card.html?id=${cardId}`;
+    // Use Firestore via dynamically imported module stored on window
+    const { doc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
+    await setDoc(doc(window._db, 'cards', cardId), data);
 
+    setProgress(100, 'Готово! 🌷');
     await new Promise(r => setTimeout(r, 400));
+
+    const base = window.location.href.replace('constructor.html', '');
+    generatedUrl = base + 'card.html?id=' + cardId;
+
     document.getElementById('overlay').classList.remove('on');
     document.getElementById('modal-link').textContent = generatedUrl;
     document.getElementById('share-modal').classList.add('on');
 
-  } catch(err) {
+  } catch (err) {
     document.getElementById('overlay').classList.remove('on');
     console.error(err);
     showToast('Ошибка: ' + (err.message || 'попробуй ещё раз'));
   }
-};
+}
 
-window.copyLink = () => {
+function copyLink() {
   navigator.clipboard.writeText(generatedUrl).catch(() => {
     const t = document.createElement('textarea');
     t.value = generatedUrl; document.body.appendChild(t); t.select();
@@ -332,10 +346,11 @@ window.copyLink = () => {
   const b = document.getElementById('copy-btn');
   b.textContent = '✓ Скопировано!';
   setTimeout(() => b.textContent = 'Копировать', 2500);
-};
-
-window.openPreview = () => window.open(generatedUrl, '_blank');
-window.closeModal  = () => document.getElementById('share-modal').classList.remove('on');
+}
+function openPreview() { window.open(generatedUrl, '_blank'); }
 </script>
+
+<!-- Config loaded AFTER the main script so FIREBASE_CONFIG is available -->
+
 </body>
 </html>
