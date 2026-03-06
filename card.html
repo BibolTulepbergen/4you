@@ -9,17 +9,23 @@
 :root{--ink:#1c0f14;--rose:#d4496a;--gold:#c8973a;--blush:#fdf0f3;--petal:#f9dde4;--mist:#8a5d6a;--white:#fff;}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Jost',sans-serif;background:#12060c;color:var(--white);min-height:100vh;overflow-x:hidden;}
+
+/* Loading */
 #loading-screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
 #loading-screen.hide{display:none;}
 .spinner{width:40px;height:40px;border:3px solid rgba(212,73,106,.3);border-top-color:var(--rose);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.loading-text{font-size:14px;color:rgba(255,255,255,.45);font-family:'Jost',sans-serif;}
+.loading-text{font-size:14px;color:rgba(255,255,255,.5);font-family:'Jost',sans-serif;}
+
+/* Error */
 #error-screen{display:none;min-height:100vh;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;}
 #error-screen.on{display:flex;}
 .err-emoji{font-size:52px;margin-bottom:20px;}
 .err-title{font-family:'Playfair Display',serif;font-size:28px;font-style:italic;color:var(--white);margin-bottom:10px;}
 .err-sub{font-size:14px;color:rgba(255,255,255,.45);margin-bottom:28px;line-height:1.6;}
 .err-btn{background:var(--rose);color:white;border:none;border-radius:50px;padding:14px 32px;font-family:'Jost',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
+
+/* Card screen */
 #card-screen{display:none;min-height:100vh;flex-direction:column;align-items:center;position:relative;overflow:hidden;padding:0 0 72px;}
 #card-screen.on{display:flex;}
 .card-glow{position:fixed;inset:0;pointer-events:none;z-index:1;background:radial-gradient(ellipse 60% 50% at 15% 25%,rgba(180,30,60,.14),transparent),radial-gradient(ellipse 50% 60% at 85% 75%,rgba(212,73,106,.09),transparent);}
@@ -27,6 +33,8 @@ body{font-family:'Jost',sans-serif;background:#12060c;color:var(--white);min-hei
 .card-inner{width:100%;max-width:460px;padding:52px 22px 0;display:flex;flex-direction:column;align-items:center;position:relative;z-index:3;}
 .whisper{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:22px;animation:fadeUp .7s ease .2s both;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+/* Card */
 .g-card{width:100%;background:white;border-radius:24px;overflow:hidden;box-shadow:0 40px 90px rgba(0,0,0,.6);animation:cardPop 1s cubic-bezier(.22,1,.36,1) .35s both;}
 @keyframes cardPop{from{opacity:0;transform:scale(.78) translateY(40px);}to{opacity:1;transform:scale(1) translateY(0);}}
 .g-banner{height:200px;display:flex;align-items:center;justify-content:center;font-size:80px;position:relative;overflow:hidden;}
@@ -42,6 +50,8 @@ body{font-family:'Jost',sans-serif;background:#12060c;color:var(--white);min-hei
 .g-name{font-family:'Playfair Display',serif;font-size:36px;font-weight:400;font-style:italic;color:var(--ink);line-height:1.1;margin-bottom:16px;}
 .g-msg{font-size:14px;line-height:1.9;color:#6b4050;font-weight:300;margin-bottom:20px;border-left:2px solid var(--petal);padding-left:14px;}
 .g-from{font-family:'Playfair Display',serif;font-style:italic;font-size:17px;color:var(--rose);text-align:right;}
+
+/* Memories */
 .mem-box{width:100%;margin-top:24px;text-align:center;animation:fadeUp .7s ease 1.7s both;opacity:0;}
 .mem-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:14px;}
 .mem-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.22);border-radius:50px;padding:13px 26px;font-family:'Jost',sans-serif;font-size:13px;color:rgba(255,255,255,.9);cursor:pointer;transition:all .3s;}
@@ -52,14 +62,20 @@ input[type=range]{flex:1;-webkit-appearance:none;appearance:none;height:3px;bord
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--rose);cursor:pointer;box-shadow:0 2px 8px rgba(212,73,106,.5);}
 input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--rose);cursor:pointer;border:none;}
 .speed-val{font-size:11px;color:rgba(255,255,255,.55);min-width:24px;text-align:right;}
+
+/* Make own */
 .make-own{margin-top:20px;animation:fadeUp .7s ease 2.6s both;opacity:0;}
 .make-own a{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:50px;padding:11px 22px;font-family:'Jost',sans-serif;font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;transition:all .3s;}
 .make-own a:hover{background:rgba(212,73,106,.15);border-color:rgba(212,73,106,.4);color:rgba(255,255,255,.8);}
+
+/* Rain */
 #rain-layer{position:fixed;inset:0;pointer-events:none;z-index:20;display:none;}
 #rain-layer.on{display:block;pointer-events:all;}
 .fp{position:absolute;width:88px;height:88px;border-radius:12px;object-fit:cover;border:2.5px solid white;box-shadow:0 8px 22px rgba(0,0,0,.45);cursor:pointer;top:-110px;opacity:0;}
 .fp.landed{transition:box-shadow .2s,transform .2s;}
 .fp.landed:hover{box-shadow:0 12px 32px rgba(212,73,106,.55)!important;transform:scale(1.08) rotate(0deg)!important;}
+
+/* Lightbox */
 #lightbox{position:fixed;inset:0;background:rgba(10,4,8,.88);backdrop-filter:blur(12px);z-index:50;display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .3s;}
 #lightbox.on{opacity:1;pointer-events:all;}
 .lb{background:white;border-radius:22px;max-width:340px;width:100%;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6);}
@@ -106,8 +122,7 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
       <button class="mem-btn" id="mem-btn" onclick="startRain()">🌸 Открыть наши моменты</button>
       <div class="speed-box">
         <span class="speed-label">🌧 Скорость</span>
-        <input type="range" id="speed-sl" min="1" max="5" value="3"
-               oninput="rainSpeed=+this.value;document.getElementById('speed-val').textContent='×'+this.value">
+        <input type="range" id="speed-sl" min="1" max="5" value="3" oninput="rainSpeed=+this.value;document.getElementById('speed-val').textContent='×'+this.value">
         <span class="speed-val" id="speed-val">×3</span>
       </div>
     </div>
@@ -128,63 +143,64 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;bac
   </div>
 </div>
 
-<script>
+<script src="firebase-config.js"></script>
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
 const EMOJIS = {'8march':'🌷','birthday':'🎂','love':'💌','newyear':'🥂'};
-let cardData  = null;
+let cardData = null;
 let rainSpeed = 3;
 let rainTimer = null;
 let rainCount = 0;
 
-// Load card after Firebase is ready
-function onConfigLoaded() {
-  const cfg = window.FIREBASE_CONFIG;
-  if (!cfg || cfg.apiKey === 'ВСТАВЬ_СЮДА') { showError(); return; }
+// Init Firebase
+const cfg = window.FIREBASE_CONFIG;
+const app = initializeApp(cfg);
+const db  = getFirestore(app);
 
-  // Dynamic Firebase import
-  const s = document.createElement('script');
-  s.type = 'module';
-  s.textContent = `
-    import { initializeApp }       from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-    import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-    const app = initializeApp(window.FIREBASE_CONFIG);
-    const db  = getFirestore(app);
-    const params = new URLSearchParams(window.location.search);
-    const cardId = params.get('id');
-    if (!cardId) { window.showError(); }
-    else {
-      getDoc(doc(db, 'cards', cardId))
-        .then(snap => { if (!snap.exists()) window.showError(); else window.renderCard(snap.data()); })
-        .catch(() => window.showError());
-    }
-  `;
-  document.head.appendChild(s);
+// Get card ID from URL
+const params = new URLSearchParams(window.location.search);
+const cardId = params.get('id');
+
+async function load(){
+  if(!cardId){ showError(); return; }
+  try{
+    const snap = await getDoc(doc(db,'cards',cardId));
+    if(!snap.exists()){ showError(); return; }
+    cardData = snap.data();
+    render();
+  }catch(e){
+    console.error(e);
+    showError();
+  }
 }
 
-function showError() {
+function showError(){
   document.getElementById('loading-screen').classList.add('hide');
   document.getElementById('error-screen').classList.add('on');
 }
 
-function renderCard(d) {
-  cardData = d;
-  document.title = 'Открытка для ' + d.name + ' 💌';
+function render(){
+  const d = cardData;
+  document.title = `Открытка для ${d.name} 💌`;
 
   const banner = document.getElementById('g-banner');
-  banner.className = 'g-banner t-' + d.theme;
+  banner.className = `g-banner t-${d.theme}`;
 
-  if (d.coverUrl) {
+  if(d.coverUrl){
     document.getElementById('g-cover').src = d.coverUrl;
     banner.classList.add('has-cover');
     document.getElementById('g-emoji').style.display = 'none';
   } else {
-    document.getElementById('g-emoji').textContent = EMOJIS[d.occasion] || '🌷';
+    document.getElementById('g-emoji').textContent = EMOJIS[d.occasion]||'🌷';
   }
 
   document.getElementById('g-name').textContent = d.name;
-  document.getElementById('g-msg').textContent  = '"' + d.msg + '"';
-  document.getElementById('g-from').textContent = '— ' + d.from;
+  document.getElementById('g-msg').textContent  = `"${d.msg}"`;
+  document.getElementById('g-from').textContent = `— ${d.from}`;
 
-  if (d.photos && d.photos.length) {
+  if(d.photos && d.photos.length){
     document.getElementById('mem-box').style.display = 'block';
   }
 
@@ -193,100 +209,98 @@ function renderCard(d) {
   setTimeout(initPetals, 500);
 }
 
-// ── Petals ────────────────────────────────────────────
-function initPetals() {
-  const cvs = document.getElementById('petal-canvas');
-  const ctx  = cvs.getContext('2d');
-  cvs.width  = window.innerWidth;
-  cvs.height = window.innerHeight;
-  window.addEventListener('resize', () => { cvs.width = window.innerWidth; cvs.height = window.innerHeight; });
-  const chars = ['🌸','🌹','✿','❀','🌺','💮','🌷'];
-  const pts = Array.from({length:20}, () => ({
-    x: Math.random()*cvs.width, y: -Math.random()*cvs.height,
-    vy: .35+Math.random()*.65,  vx: (Math.random()-.5)*.35,
-    rot: Math.random()*360,     vr: (Math.random()-.5)*1.4,
-    sz: 13+Math.random()*10,    ch: chars[Math.floor(Math.random()*chars.length)],
-    a: .35+Math.random()*.45
+// ── Petals ──
+let petalAF = null;
+function initPetals(){
+  if(petalAF){ cancelAnimationFrame(petalAF); }
+  const cvs=document.getElementById('petal-canvas'), ctx=cvs.getContext('2d');
+  cvs.width=window.innerWidth; cvs.height=window.innerHeight;
+  window.addEventListener('resize',()=>{cvs.width=window.innerWidth;cvs.height=window.innerHeight;});
+  const chars=['🌸','🌹','✿','❀','🌺','💮','🌷'];
+  const pts=Array.from({length:20},()=>({
+    x:Math.random()*cvs.width, y:-Math.random()*cvs.height,
+    vy:.35+Math.random()*.65, vx:(Math.random()-.5)*.35,
+    rot:Math.random()*360, vr:(Math.random()-.5)*1.4,
+    sz:13+Math.random()*10, ch:chars[Math.floor(Math.random()*chars.length)],
+    a:.35+Math.random()*.45
   }));
-  (function draw() {
-    ctx.clearRect(0, 0, cvs.width, cvs.height);
-    pts.forEach(p => {
-      ctx.save(); ctx.globalAlpha = p.a;
-      ctx.translate(p.x, p.y); ctx.rotate(p.rot * Math.PI / 180);
-      ctx.font = p.sz + 'px serif'; ctx.fillText(p.ch, -p.sz/2, p.sz/2);
+  function draw(){
+    ctx.clearRect(0,0,cvs.width,cvs.height);
+    pts.forEach(p=>{
+      ctx.save(); ctx.globalAlpha=p.a;
+      ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+      ctx.font=`${p.sz}px serif`; ctx.fillText(p.ch,-p.sz/2,p.sz/2);
       ctx.restore();
-      p.x += p.vx; p.y += p.vy; p.rot += p.vr;
-      if (p.y > cvs.height + 20) { p.y = -20; p.x = Math.random() * cvs.width; }
+      p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr;
+      if(p.y>cvs.height+20){ p.y=-20; p.x=Math.random()*cvs.width; }
     });
-    requestAnimationFrame(draw);
-  })();
-}
-
-// ── Rain ──────────────────────────────────────────────
-function startRain() {
-  if (!cardData?.photos?.length) return;
-  document.getElementById('mem-btn').textContent = '🌸 Снова';
-  if (rainTimer) { clearInterval(rainTimer); rainTimer = null; }
-  const layer = document.getElementById('rain-layer');
-  layer.classList.add('on'); layer.innerHTML = '';
-  rainCount = 0;
-  const interval = Math.round(550 / rainSpeed);
-  function go() {
-    if (rainCount >= 40) { clearInterval(rainTimer); rainTimer = null; return; }
-    dropOne(); rainCount++;
+    petalAF=requestAnimationFrame(draw);
   }
-  go(); rainTimer = setInterval(go, interval);
+  draw();
 }
 
-function dropOne() {
-  const layer  = document.getElementById('rain-layer');
-  const photos = cardData.photos;
-  const p      = photos[rainCount % photos.length];
-  const img    = document.createElement('img');
-  img.className = 'fp';
-  const leftVw = 5 + Math.random() * 82;
-  const rotDeg = Math.random() * 28 - 14;
-  img.style.left = leftVw + 'vw';
-  img.style.transform = 'rotate(' + rotDeg + 'deg) scale(0.85)';
-  const dur   = (1.8 + Math.random() * 1.4) / Math.sqrt(rainSpeed);
-  const durMs = dur * 1000;
-  img.addEventListener('click', () => openLB(p));
-  layer.appendChild(img);
-  img.src = p.url;
+// ── Rain ──
+window.startRain = () => {
+  if(!cardData?.photos?.length) return;
+  document.getElementById('mem-btn').textContent='🌸 Снова';
+  if(rainTimer){clearInterval(rainTimer);rainTimer=null;}
+  const layer=document.getElementById('rain-layer');
+  layer.classList.add('on'); layer.innerHTML='';
+  rainCount=0;
+  const interval=Math.round(550/rainSpeed);
+  const go=()=>{
+    if(rainCount>=40){clearInterval(rainTimer);rainTimer=null;return;}
+    dropOne(); rainCount++;
+  };
+  go(); rainTimer=setInterval(go,interval);
+};
 
-  const startTime = performance.now();
-  const startTop  = -110;
-  const endTop    = window.innerHeight - 80 - Math.random() * 200;
-
-  function fall(now) {
-    const t    = Math.min((now - startTime) / durMs, 1);
-    const ease = 1 - Math.pow(1 - t, 3);
-    img.style.top     = (startTop + (endTop - startTop) * ease) + 'px';
-    img.style.opacity = t < 0.06 ? t / 0.06 : 1;
-    if (t < 1) { requestAnimationFrame(fall); return; }
-    img.style.top       = endTop + 'px';
-    img.style.opacity   = '1';
-    img.style.transform = 'rotate(' + rotDeg + 'deg)';
-    img.classList.add('landed');
-    setTimeout(() => {
-      let fade = 1;
-      const fi = setInterval(() => {
-        fade -= 0.05; img.style.opacity = Math.max(0, fade);
-        if (fade <= 0) { clearInterval(fi); img.remove(); }
-      }, 50);
-    }, 14000);
+function dropOne(){
+  const layer=document.getElementById('rain-layer');
+  const photos=cardData.photos;
+  const p=photos[rainCount%photos.length];
+  const img=document.createElement('img'); img.className='fp';
+  const leftVw=5+Math.random()*82;
+  const rotDeg=Math.random()*28-14;
+  img.style.left=leftVw+'vw';
+  img.style.transform=`rotate(${rotDeg}deg) scale(0.85)`;
+  const dur=(1.8+Math.random()*1.4)/Math.sqrt(rainSpeed);
+  img.addEventListener('click',()=>openLB(p));
+  layer.appendChild(img); img.src=p.url;
+  const startTime=performance.now();
+  const startTop=-110;
+  const endTop=window.innerHeight-80-Math.random()*200;
+  const durMs=dur*1000;
+  function fall(now){
+    const t=Math.min((now-startTime)/durMs,1);
+    const ease=1-Math.pow(1-t,3);
+    img.style.top=(startTop+(endTop-startTop)*ease)+'px';
+    img.style.opacity=t<0.06?t/0.06:1;
+    if(t<1){ requestAnimationFrame(fall); }
+    else {
+      img.style.top=endTop+'px'; img.style.opacity='1';
+      img.style.transform=`rotate(${rotDeg}deg)`;
+      img.classList.add('landed');
+      setTimeout(()=>{
+        let fade=1;
+        const fi=setInterval(()=>{ fade-=0.05; img.style.opacity=Math.max(0,fade); if(fade<=0){clearInterval(fi);img.remove();} },50);
+      },14000);
+    }
   }
   requestAnimationFrame(fall);
 }
 
-function openLB(photo) {
-  document.getElementById('lb-img').src   = photo.url;
-  document.getElementById('lb-text').textContent = photo.wish || (cardData && cardData.msg) || 'Ты особенная ✨';
+window.openLB = photo => {
+  document.getElementById('lb-img').src = photo.url;
+  document.getElementById('lb-text').textContent = photo.wish || cardData?.msg || 'Ты особенная ✨';
   document.getElementById('lightbox').classList.add('on');
-}
-function closeLB() { document.getElementById('lightbox').classList.remove('on'); }
+};
+window.closeLB = () => document.getElementById('lightbox').classList.remove('on');
+
+// make rainSpeed writable from inline oninput
+Object.defineProperty(window,'rainSpeed',{get:()=>rainSpeed,set:v=>rainSpeed=v});
+
+load();
 </script>
-
-
 </body>
 </html>
